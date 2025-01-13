@@ -2,6 +2,26 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Header = () => {
+
+    const navigations = [
+        {
+            name: "Home",
+            path: "/"
+        },
+        {
+            name: "Products",
+            path: "/products"
+        },
+        {
+            name: "About",
+            path: "/about"
+        },
+        {
+            name: "Contact",
+            path: "/contact"
+        }
+    ]
+
     return (
         <>
             <header className="text-gray-600 body-font shadow-lg">
@@ -13,10 +33,13 @@ const Header = () => {
                         <span className="ml-3 text-xl">Tailblocks</span>
                     </Link>
                     <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                        <a className="mr-5 hover:text-gray-900">First Link</a>
-                        <a className="mr-5 hover:text-gray-900">Second Link</a>
-                        <a className="mr-5 hover:text-gray-900">Third Link</a>
-                        <a className="mr-5 hover:text-gray-900">Fourth Link</a>
+                        {
+                            navigations.map((navigation)=>{
+                                return (
+                                    <Link to={navigation.path} className='mr-5 hover:text-gray-900'>{navigation.name}</Link> 
+                                )
+                            })
+                        }
                     </nav>
                     <button className="inline-flex items-center bg-gray-100 border-0 py-2 px-4 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Go To Cart
                         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">

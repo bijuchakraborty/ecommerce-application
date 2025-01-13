@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import HourglassGif from "../../assets/Hourglass.gif"
 
 const Product = () => {
     const { id } = useParams()
@@ -9,12 +10,16 @@ const Product = () => {
             const response = await fetch(`https://fakestoreapi.com/products/${id}`)
             const data = await response.json()
             setProduct(data)
-            console.log(data);
         }
         fetchSingleProduct()
     }, [])
 
-    if(!Object.keys(product).length > 0) return <div>...Product Not Found</div>
+    if (!Object.keys(product).length > 0) return (
+        <div className="flex flex-col items-center justify-center h-screen">
+            <img src={HourglassGif} alt="Loading..." className="w-16 h-16 animate-spin" />
+            <p className="mt-4 text-gray-700 text-lg font-medium">Loading, please wait...</p>
+        </div>
+    )
 
     return (
         <>
