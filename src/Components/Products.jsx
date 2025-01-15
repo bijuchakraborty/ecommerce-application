@@ -25,14 +25,8 @@ const Products = ({ Products }) => {
                                                     {category}
                                                 </h3>
                                                 <h2 className="text-gray-900 text-lg font-medium min-h-[48px]">
-                                                    {title.slice(0, 50)}
+                                                    {title}
                                                 </h2>
-                                                <p className="text-lg text-indigo-600 font-bold mt-auto">
-                                                    ${price}
-                                                </p>
-                                                <button className="mt-auto bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
-                                                    Add to Cart
-                                                </button>
                                             </div>
                                         </div>
                                     </div>

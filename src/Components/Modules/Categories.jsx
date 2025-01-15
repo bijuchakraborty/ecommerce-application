@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import FeaturesCard from '../FeaturesCard'
+import HourglassGif from '../../assets/Hourglass.gif'
 
-const Categories = ({ load }) => {
+const Categories = () => {
 
     const [caterories, setCategories] = useState([])
 
@@ -16,7 +17,7 @@ const Categories = ({ load }) => {
 
     if (caterories.length === 0)
         return <div className="flex flex-col items-center justify-center h-screen">
-            <img src={load} alt="Loading..." className="w-16 h-16 animate-spin" />
+            <img src={HourglassGif} alt="Loading..." className="w-16 h-16 animate-spin" />
             <p className="mt-4 text-gray-700 text-lg font-medium">Loading, please wait...</p>
         </div>
 
