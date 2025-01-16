@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import FeaturesCard from '../FeaturesCard'
 import HourglassGif from '../../assets/Hourglass.gif'
+import { PRODUCTS_BASE_URL } from '../../assets/AllApi'
 
 const Categories = () => {
 
@@ -8,9 +9,16 @@ const Categories = () => {
 
     useEffect(() => {
         const fetchCaterories = async () => {
-            const response = await fetch('https://fakestoreapi.com/products/categories')
-            const data = await response.json()
-            setCategories(data)
+            try {
+                const response = await fetch(`${PRODUCTS_BASE_URL}/products/categories`)
+                if(!response.ok){
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json()
+                setCategories(data)
+            } catch(error) {
+                console.log(error.message);
+            }
         }
         fetchCaterories()
     }, [])

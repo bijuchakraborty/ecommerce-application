@@ -4,14 +4,22 @@ import Products from './Products'
 import StatCard from './StatCard'
 import Categories from './Modules/Categories'
 import HourglassGif from "../assets/Hourglass.gif"
+import { PRODUCTS_BASE_URL } from '../assets/AllApi'
 
 const Home = () => {
     const [products, setProducts] = useState([])
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await fetch('https://fakestoreapi.com/products?limit=12')
-            const data = await response.json()
-            setProducts(data)
+            try {
+                const response = await fetch(`${PRODUCTS_BASE_URL}/products?limit=12`)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json()
+                setProducts(data)
+            } catch (error) {
+                console.log(error.message);
+            }
         }
         fetchProducts();
     }, [])

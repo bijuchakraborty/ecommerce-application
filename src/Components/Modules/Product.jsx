@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import HourglassGif from "../../assets/Hourglass.gif"
+import { PRODUCTS_BASE_URL } from '../../assets/AllApi'
 
 const Product = () => {
     const { id } = useParams()
     const [product, setProduct] = useState({})
     const navigate = useNavigate()
-    // const [showToast, setShowToast] = useState(false)
+    const [showToast, setShowToast] = useState(false)
     useEffect(() => {
         const fetchSingleProduct = async () => {
-            const response = await fetch(`https://fakestoreapi.com/products/${id}`)
-            const data = await response.json()
-            setProduct(data)
+            try {
+                const response = await fetch(`${PRODUCTS_BASE_URL}/products/${id}`)
+                if(!response.ok){
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json()
+                setProduct(data)
+            } catch(error){
+                console.log(error.message)
+            }
         }
         fetchSingleProduct()
     }, [])
@@ -40,13 +48,13 @@ const Product = () => {
         } else {
             sessionStorage.setItem("cart", JSON.stringify([...cart, { ...product, quantity: 1 }]))
         }
-        // setShowToast(true)
-        // setTimeout(() => {
-        //     setShowToast(false)
-        // }, 3000)
-        if (redirect) {
-            navigate('/cart')
-        }
+        setShowToast(true)
+        setTimeout(() => {
+            setShowToast(false)
+            if (redirect) {
+                navigate('/cart')
+            }
+        },1000)
     }
 
     return (
@@ -126,16 +134,11 @@ const Product = () => {
                                     <button onClick={() => handleCart(product, true)} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none mr-2 hover:bg-indigo-600 rounded">By it now</button>
                                     <button onClick={() => handleCart(product)} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Add to cart</button>
                                 </div>
-                                {/* {showToast && (
-                                    <div
-                                        className={`fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-500 ${showToast ? 'opacity-100' : 'opacity-0'
-                                            }`}
-                                        style={{ zIndex: 9999 }}
-                                    >
+                                {showToast && (
+                                    <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-indigo-500 text-white px-6 py-1 mt-1 rounded shadow-lg z-50">
                                         Product added to cart successfully!
                                     </div>
-                                )} */}
-
+                                )}
                                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                     <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5" viewBox="0 0 24 24">
                                         <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>

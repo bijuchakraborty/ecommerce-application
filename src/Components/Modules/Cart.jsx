@@ -40,14 +40,18 @@ const Cart = () => {
   };
 
   if (!carts.length) {
-    return <div className="text-center text-gray-500 mt-10">Your cart is empty.</div>;
+    return (
+      <div className='mt-12 mb-12'>
+        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsuCwnJdFhNhdvMC7CnqGcCbk-HvCC9YGADw&s' alt='emptyCart' className="w-full" />
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto mt-10 px-4 pb-4">
-      <div className="flex gap-8">
+      <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Section: Shopping Cart */}
-        <div className="w-7/12 bg-white shadow-md rounded-lg p-6">
+        <div className="w-full lg:w-7/12 bg-white shadow-md rounded-lg p-6">
           <div className="flex justify-between border-b pb-4">
             <h1 className="font-bold text-2xl">Shopping Cart</h1>
             <h2 className="font-semibold text-lg">{carts?.length} Items</h2>
@@ -74,18 +78,21 @@ const Cart = () => {
                     </button>
                   </div>
                 </div>
-                <div className="col-span-2 flex justify-center items-center">
+                <div className="col-span-2 flex justify-center items-center space-x-2">
+                  {/* Decrease button */}
                   <button onClick={() => handleDecr(e?.id)} className="p-2 hover:bg-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                       <rect x="5" y="11" width="14" height="2" rx="1" />
                     </svg>
                   </button>
+                  {/* Quantity display */}
                   <input
                     type="text"
                     value={e?.quantity}
                     readOnly
                     className="mx-2 w-8 text-center border rounded-md"
                   />
+                  {/* Increase button */}
                   <button onClick={() => handleIncr(e?.id)} className="p-2 hover:bg-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                       <path d="M12 5c0-.55.45-1 1-1s1 .45 1 1v6h6c.55 0 1 .45 1 1s-.45 1-1 1h-6v6c0 .55-.45 1-1 1s-1-.45-1-1v-6H5c-.55 0-1-.45-1-1s.45-1 1-1h6V5z" />
@@ -108,7 +115,7 @@ const Cart = () => {
         </div>
 
         {/* Right Section: Order Summary */}
-        <div className="w-5/12 bg-white shadow-md rounded-lg p-6">
+        <div className="w-full lg:w-5/12 bg-white shadow-md rounded-lg p-6">
           <h2 className="font-semibold text-xl border-b pb-4">Order Summary</h2>
           <div className="flex justify-between mt-4">
             <span className="text-gray-600 text-sm">Items ({carts.length})</span>

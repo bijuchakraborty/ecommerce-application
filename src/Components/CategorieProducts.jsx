@@ -2,15 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Products from './Products'
 import HourglassGif from '../assets/Hourglass.gif'
+import { PRODUCTS_BASE_URL } from '../assets/AllApi'
 
 const CategorieProducts = () => {
     const { name } = useParams()
     const [products, setProducts] = useState([])
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await fetch(`https://fakestoreapi.com/products/category/${name}`)
-            const data = await response.json()
-            setProducts(data)
+            try {
+                const response = await fetch(`${PRODUCTS_BASE_URL}/products/category/${name}`)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json()
+                setProducts(data)
+            } catch (error) {
+                console.log(error.message);
+            }
         }
         fetchProducts();
     }, [])
