@@ -10,6 +10,7 @@ import About from "./Components/About";
 import Contact from "./Components/Contact";
 import LoginPage from "./Components/Login/LoginPage";
 import SignUpPage from "./Components/Login/SignUpPage";
+import { useState } from "react";
 
 export default function App() {
   return (
@@ -20,22 +21,24 @@ export default function App() {
 }
 
 function AppContent() {
+  const [token, setToken] = useState(sessionStorage.getItem("userToken") ?? null);
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login" || location.pathname === "/signup";
+  const isLoginPage = location.pathname === "/" || location.pathname === "/signup";
 
   return (
     <div>
       {!isLoginPage && (
         <header className="sticky top-0 z-50 bg-white">
-          <Header />
+          <Header setToken={setToken} />
         </header>
       )}
 
       <div className="flex-grow flex items-center justify-center">
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
+          {
+            token ? <Route path="/home" element={<Home />} /> : <Route path="/" element={<LoginPage token={token} setToken={setToken} />} />
+          }
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/" element={<Home />} />
           <Route path="/products/:id" element={<Product />} />
           <Route path="/products" element={<ProductContainer />} />
           <Route path="/categories/:name" element={<CategorieProducts />} />

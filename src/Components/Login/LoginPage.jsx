@@ -2,33 +2,50 @@ import React, { useState } from 'react';
 import { PRODUCTS_BASE_URL } from '../../assets/AllApi';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const LoginPage = ({ token, setToken }) => {
 
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
     const navigate = useNavigate()
 
-    const userLogin = async () => {
+    const userLogin = async (e) => {
+        e.preventDefault();
+        setError("");
+        if (!userName || !password) {
+            console.log("Username and password are required");
+            return;
+        }
         try {
-            const response = await fetch(`${PRODUCTS_BASE_URL}/auth/login`, {
+            const response = await fetch('https://fakestoreapi.com/auth/login', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     username: userName,
-                    password: password
-                })
-            })
-            if (response.ok) {
-                const json = await response.json()
-                console.log(json)
-            } else {
-                console.log("error")
+                    password: password,
+                }),
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData.message || "Login failed. Please try again.");
+                return;
             }
-            navigate('/')
+
+            const json = await response.json();
+            console.log(json)
+            if (json && json.token) {
+                setToken(json.token);
+                console.log("Token:", json.token);
+                sessionStorage.setItem("userToken", json.token);
+                navigate('/home');
+            } else {
+                setError("Invalid response from server.");
+            }
         } catch (error) {
-            console.log(error.message)
+            console.log(error.response.data)
+            setError(error.response.data)
         }
     }
 
@@ -88,6 +105,8 @@ const LoginPage = () => {
                                 />
                             </div>
 
+                            {error && <small>{error}</small>}
+
                             <button
                                 type="submit"
                                 onClick={userLogin}
@@ -107,7 +126,7 @@ const LoginPage = () => {
                                     Sign Up
                                 </Link>
                             </p>
-                            <p className="text-sm text-gray-600 mt-2">
+                            {/* <p className="text-sm text-gray-600 mt-2">
                                 Forgot your password?{' '}
                                 <a
                                     href="/reset-password"
@@ -115,7 +134,7 @@ const LoginPage = () => {
                                 >
                                     Reset Password
                                 </a>
-                            </p>
+                            </p> */}
                         </div>
                     </div>
                 </div>
