@@ -116,7 +116,7 @@ const LoginPage = ({ token, setToken }) => {
                             </button>
                         </form>
 
-                        <div className="mt-6 text-center">
+                        {/* <div className="mt-6 text-center">
                             <p className="text-sm text-gray-600">
                                 Don't have an account?{' '}
                                 <Link to={'/signup'}
@@ -126,7 +126,7 @@ const LoginPage = ({ token, setToken }) => {
                                     Sign Up
                                 </Link>
                             </p>
-                            {/* <p className="text-sm text-gray-600 mt-2">
+                            <p className="text-sm text-gray-600 mt-2">
                                 Forgot your password?{' '}
                                 <a
                                     href="/reset-password"
@@ -134,8 +134,8 @@ const LoginPage = ({ token, setToken }) => {
                                 >
                                     Reset Password
                                 </a>
-                            </p> */}
-                        </div>
+                            </p>
+                        </div> */}
                     </div>
                 </div>
             </div>

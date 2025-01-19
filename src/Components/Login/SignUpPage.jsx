@@ -4,6 +4,7 @@ import { PRODUCTS_BASE_URL } from "../../assets/AllApi";
 
 const SignUpPage = () => {
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
@@ -13,8 +14,7 @@ const SignUpPage = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
 
-        // Validation
-        if (!email || !password || !confirmPassword) {
+        if (!email || !username || !password || !confirmPassword) {
             setError("All fields are required.");
             return;
         }
@@ -31,7 +31,7 @@ const SignUpPage = () => {
                 },
                 body: JSON.stringify({
                     email,
-                    username: email.split("@")[0],
+                    username,
                     password,
                     name: {
                         firstname: "User",
@@ -55,7 +55,7 @@ const SignUpPage = () => {
                 setSuccess(true);
                 setError("");
                 console.log("User created successfully!");
-                navigate("/home");
+                navigate("/");
             } else {
                 const errorData = await response.json();
                 setError(errorData.message || "Sign-up failed. Try again.");
@@ -104,7 +104,23 @@ const SignUpPage = () => {
                                 required
                             />
                         </div>
-
+                        <div>
+                            <label
+                                htmlFor="username"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Username
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Choose a username"
+                                required
+                            />
+                        </div>
                         <div>
                             <label
                                 htmlFor="password"
@@ -122,7 +138,6 @@ const SignUpPage = () => {
                                 required
                             />
                         </div>
-
                         <div>
                             <label
                                 htmlFor="confirmPassword"
@@ -140,7 +155,6 @@ const SignUpPage = () => {
                                 required
                             />
                         </div>
-
                         <button
                             type="submit"
                             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg font-medium transition duration-300"
@@ -148,7 +162,6 @@ const SignUpPage = () => {
                             Sign Up
                         </button>
                     </form>
-
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-600">
                             Already have an account?{" "}

@@ -48,6 +48,10 @@ const Product = () => {
         } else {
             sessionStorage.setItem("cart", JSON.stringify([...cart, { ...product, quantity: 1 }]))
         }
+        
+        const event = new Event("cartUpdated");
+        window.dispatchEvent(event);
+
         setShowToast(true)
         setTimeout(() => {
             setShowToast(false)
